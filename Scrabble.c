@@ -815,11 +815,11 @@ void set_Bot_Pos(int x,int y,int range){
 	srand(time(0));
 	randomN1=(rand() % (range-min))+min;
 	randomN2=(rand() % (max-min))+min;
-	if(bot.Pos=='H'){
+	if(bot.Pos=='H'){ //jika komputer akan menginput secara Horizontal.
 		bot.PosY=y+randomN1;
 		bot.PosX=x-randomN2;
 	}
-	else if(bot.Pos=='V'){
+	else if(bot.Pos=='V'){ //jika komputer akan menginput secara Vertical.
 		bot.PosX=x+randomN1;
 		bot.PosY=y-randomN2;
 	}
@@ -886,12 +886,12 @@ void BotHard(){
 }
 void fix_Bot_Pos(char Position,int LocX,int LocY,int length){
 	//memperbaiki posisi input bot jika melebihi atau kurang dari titik minimal dan maksimal input.
-	if(Position=='H'){
+	if(Position=='H'){ //jika komputer akan menginput secara Horizontal.
 		if(LocX+length>M){
 			LocX-=length-1;
 		}
 	}
-	else if(Position=='V'){
+	else if(Position=='V'){ //jika komputer akan menginput secara Vertical.
 		if(LocY+length>M){
 			LocY-=length-1;
 		}
@@ -917,7 +917,7 @@ int BotCheckTiles(char Position,char word[])
 {
 	//mengecek posisi dan kata yang diinput komputer apakah sesuai dengan situasi papan atau tidak.
 	int i,check=1;
-	if(Position=='H'){
+	if(Position=='H'){ //jika komputer akan menginput secara Horizontal.
 		for(i=0;word[i]!='\0';i++){
 			if(word[i]!=dat.BoardM[bot.PosY][bot.PosX+i] && dat.BoardM[bot.PosY][bot.PosX+i]!='\0'){
 				check=0;
@@ -925,7 +925,7 @@ int BotCheckTiles(char Position,char word[])
 			}
 		}
 	}
-	else if(Position=='V'){
+	else if(Position=='V'){ //jika komputer akan menginput secara Vertical.
 		for(i=0;word[i]!='\0';i++){
 			if(word[i]!=dat.BoardM[bot.PosY+i][bot.PosX] && dat.BoardM[bot.PosY+i][bot.PosX]!='\0'){
 				check=0;
@@ -945,14 +945,14 @@ void Bot_Put_Word(char word[])
 	//mengatur ketika bot menginput kata kepapan.
 	int i;
 	int Loc[7][2];
-	if(bot.Pos=='H'){
+	if(bot.Pos=='H'){ //jika komputer akan menginput secara Horizontal.
 		for(i=0;word[i]!='\0';i++){
 		Loc[i][0]=bot.PosX+i;
 		Loc[i][1]=bot.PosY;
 		dat.BoardM[bot.PosY][bot.PosX+i]=word[i];
 		}
 	}
-	if(bot.Pos=='V'){
+	if(bot.Pos=='V'){ //jika komputer akan menginput secara Vertical.
 		for(i=0;word[i]!='\0';i++){
 		Loc[i][0]=bot.PosX;
 		Loc[i][1]=bot.PosY+i;
@@ -1053,12 +1053,12 @@ void OverWriteScore(char name[][30],int score[],int diff[],int idx){
 	fclose(ptr_to_file);
 }
 int starttime(){ //modular pengambilan waktu saat ini.
-    clock_t t;
+    clock_t t;	 //referensi : Tugas Besar (Dimas Kurniawan & Muhamad Aryadipura Sasmita Atmadja).
     t = clock();
     return t;
 }
 int endtime(){ //modular pengambilan waktu saat ini.
-    clock_t t;
+    clock_t t; //referensi : Tugas Besar (Dimas Kurniawan & Muhamad Aryadipura Sasmita Atmadja).
     t = clock();
     return t;
 }
