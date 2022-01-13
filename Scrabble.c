@@ -23,7 +23,7 @@ void show_table();
 void ChangeTurn();
 void InputTiles();
 void Set_tiles();
-void scramble();
+void scramble(char *ptr, int length);
 int countLengthH(char word[]);
 void SetHTiles();
 void FindPos(char temp[],int *x,int *y);
@@ -234,8 +234,8 @@ void SetDiff(){
 	printf("%45cPilih tingkat kesulitan \n%45c1. Casual (Short Mode) \n%45c2. Casual \n%45c3. Hard\n",empty,empty,empty,empty);
 	scanf("%d",&choose);
 	switch(choose){
-		case 1 : dat.Diffiticulty=1;time_limit=1000;Initiate_boardC();break;
-		case 2 : dat.Diffiticulty=2;time_limit=1000;Initiate_boardH();break;
+		case 1 : dat.Diffiticulty=1;time_limit=80;Initiate_boardC();break;
+		case 2 : dat.Diffiticulty=2;time_limit=80;Initiate_boardH();break;
 		case 3 : dat.Diffiticulty=3;time_limit=40;Initiate_boardH();break;
 		default : printf("maaf tidak ada pilihan angka tersebut");getch();system("cls");SetDiff();break;
 	}
@@ -385,8 +385,8 @@ void InputTiles(){
 	double time_passed;
 	char word[1024];
 	char temp[7];
-	ChangeTurn();
 	char ctiles1[8];char ctiles2[8];
+	ChangeTurn();
 	printf("%s's Turn\n",p.usr[turn]);
 	if(dat.Diffiticulty==1 || dat.Diffiticulty==2){Set_tiles();strcpy(ctiles1,tiles);}
 	else{SetHTiles();strcpy(ctiles1,tiles);
@@ -460,8 +460,7 @@ void InputTiles(){
 			else if(time_passed>time_limit){ //yang terjadi ketika waktu habis.
 				printf("time's up\n");
 				getch();
-				system("cls");
-				show_board();
+				goto end;
 			}
 			else{ //ketika input pemain tidak memenuhi persyaratan.
 				printf("word that you input failed to be placed\n");
@@ -748,6 +747,7 @@ int Check_Pos(char Position,int LocX,int LocY,int length){
 }
 void add_score(char word[],int Location[][2]){
 	//modular yang menangani akumulasi skor kata berdasarkan poin setiap huruf yang telah diatur.
+	//referensi dari permainan papan asli Scrabble.
 	int i,total_score=0,scoreL=0;
 	for(i=0;word[i]!='\0';i++){
 		scoreL=0;
@@ -760,7 +760,7 @@ void add_score(char word[],int Location[][2]){
 		else if(word[i]=='B' || word[i]=='C' || word[i]=='M' || word[i]=='P'){
 			scoreL+=3;
 		}
-		else if(word[i]=='F' || word[i]=='H' || word[i]=='V' || word[i]=='W' || word[i]=='d' || word[i]=='Y'){
+		else if(word[i]=='F' || word[i]=='H' || word[i]=='V' || word[i]=='W' || word[i]=='Y'){
 			scoreL+=4;
 		}
 		else if(word[i]=='K'){
@@ -952,7 +952,7 @@ void Bot_Put_Word(char word[])
 		dat.BoardM[bot.PosY][bot.PosX+i]=word[i];
 		}
 	}
-	if(bot.Pos=='V'){ //jika komputer akan menginput secara Vertical.
+	else if(bot.Pos=='V'){ //jika komputer akan menginput secara Vertical.
 		for(i=0;word[i]!='\0';i++){
 		Loc[i][0]=bot.PosX;
 		Loc[i][1]=bot.PosY+i;
@@ -987,10 +987,10 @@ void end_game(){
 		ResetGame();
 	}
 	else{
-			system("cls");
-	printf("%55c%s",empty,"Good Bye\n");
-	getch();
-	exit(1);
+		system("cls");
+		printf("%55c%s",empty,"Good Bye\n");
+		getch();
+		exit(1);
 	}
 }
 void ResetGame(){
